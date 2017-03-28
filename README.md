@@ -2,7 +2,6 @@
 
 It's only use for linux, I'm still not check in OSX.
 
-
 ### usage
 
 - compile
@@ -14,13 +13,13 @@ It's only use for linux, I'm still not check in OSX.
 - set proxy_ip
 
 ```
-  #define PROXY_IP "100.69.167.224"  // your proxt dev ip
+  #define PROXY_IP "100.69.167.224"  // your proxy dev ip
 ```
 
 - run 
 
 ```
-  ./main 115.239.211.112  // forward ip to real http server, this ip is baidu.com
+  ./main 115.239.211.112  // forward ip to real http server, this ip is www.baidu.com
 ```
 
 - curl in another machine， now you will recieve result, and every ip packet will through your proxy dev.

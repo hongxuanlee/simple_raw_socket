@@ -5,6 +5,8 @@
 #include <netinet/ip.h>
 #include <netinet/tcp.h>
 #include <arpa/inet.h>
+#include <errno.h>
+#include <stdlib.h> 
 #include "print.c"
 
 #define PROXY_IP "100.69.167.224"
@@ -29,7 +31,6 @@ struct pseudoHeader
     u_int8_t protocol;  //for tcp
     u_int16_t tcp_len;
 };
-
 
 void str_replace(char *target, const char *needle, const char *replacement)
 {
@@ -138,17 +139,13 @@ void ProcessPacket(unsigned char* buffer, int size, int s){
         tcph -> source = htons(PROXY_OUTPORT);
         tcph -> dest = htons(dest_port); 
         unsigned short data_len = ntohs(iph -> tot_len) - iphdrlen - tcphdrlen; 
-        printf("data_len: %d \n", data_len);
         if(data_len > 0){
-          printf("old data_len: %d\n", strlen(payload));
           handlePayload(payload);
-          printf("new data_len: %d\n", strlen(payload));
           iph -> tot_len = htons(iphdrlen + tcphdrlen + strlen(payload));
         }
    }
     else if(ntohs(tcph -> dest) == PROXY_OUTPORT)
     {
-        printf("recieve back!!!\n");
         iph -> daddr = source_ip; 
         iph -> saddr = inet_addr(PROXY_IP); 
         tcph -> dest = source_port;
